@@ -4,7 +4,7 @@ import Layout from '../views/layout/index.vue'
 import { Odometer, Document, List, DataAnalysis, Film, VideoPlay } from '@element-plus/icons-vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory('/admin'),
   routes: [
     {
       path: '/login',
