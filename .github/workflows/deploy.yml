@@ -32,6 +32,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: v0.1  # 将构建输出部署到 `gh-pages` 分支
+          branch: gh-pages  # 将构建输出部署到 `gh-pages` 分支
           folder: dist      # Vue 项目构建后的输出文件夹
           token: ${{ secrets.GH_TOKEN }}  # GitHub 自动生成的 token
