@@ -15,6 +15,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  base: process.env.NODE_ENV === 'production' ? '/admin/' : '/',  // 设置 base 路径
+  base: process.env.NODE_ENV === 'production' ? '/vue3-admin/' : '/',  // 设置 base 路径
 })
 
