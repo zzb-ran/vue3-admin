@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import Layout from '../views/layout/index.vue'
-import { Odometer, Document, List, DataAnalysis, Film, VideoPlay } from '@element-plus/icons-vue'
+import { Odometer, Document, List, DataAnalysis, Film, VideoPlay, SwitchFilled } from '@element-plus/icons-vue'
 
 const router = createRouter({
   history: createWebHistory(process.env.NODE_ENV === 'production' ? '/vue3-admin/' : '/'),
@@ -112,6 +112,15 @@ const router = createRouter({
               }
             }
           ]
+        },
+        {
+          path: '/nes',
+          name: 'nes',
+          component: () => import('../views/nes/index.vue'),
+          meta: {
+            title: 'NES游戏',
+            icon: SwitchFilled
+          }
         }
       ]
     }
