@@ -4,17 +4,35 @@
   <meta charset="utf-8">
   <title>Vue3 Admin</title>
   <script>
-    // 获取当前URL中的路径部分
+    // 获取当前URL中的路径部分和查询参数
     const path = window.location.pathname;
     const hash = window.location.hash;
+    const search = window.location.search;
     
     // 如果路径以/vue3-admin/开头，说明是生产环境
     if (path.startsWith('/vue3-admin/')) {
-      // 重定向到index.html，保持原有的路由信息
-      window.location.href = path;
+      // 将路由信息作为路径的一部分传递
+      const pathWithoutBase = path.replace('/vue3-admin/', '');
+      const targetPath = '/vue3-admin/index.html';
+      // 如果有hash，优先使用hash部分
+      if (hash) {
+        window.location.replace(`${targetPath}${hash}${search}`);
+      } else {
+        // 否则使用路径部分作为路由
+        const finalUrl = pathWithoutBase ? `${targetPath}#/${pathWithoutBase}${search}` : targetPath;
+        window.location.replace(finalUrl);
+      }
     } else {
       // 开发环境直接重定向到根目录
-      window.location.href = '/';
+      const targetPath = '/index.html';
+      // 如果有hash，优先使用hash部分
+      if (hash) {
+        window.location.replace(`${targetPath}${hash}${search}`);
+      } else {
+        // 否则使用路径部分作为路由
+        const finalUrl = path === '/' ? targetPath : `${targetPath}#${path}${search}`;
+        window.location.replace(finalUrl);
+      }
     }
   </script>
 </head>
