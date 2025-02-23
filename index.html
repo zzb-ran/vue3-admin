@@ -5,6 +5,19 @@
     <link rel="icon" href="/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>后台管理系统</title>
+    <script>
+      // 检查是否存在保存的路由信息
+      window.onload = function() {
+        const savedPath = sessionStorage.getItem('redirect');
+        if (savedPath) {
+          // 清除保存的路由信息
+          sessionStorage.removeItem('redirect');
+          // 使用保存的路由信息进行重定向
+          const baseUrl = process.env.NODE_ENV === 'production' ? '/vue3-admin' : '';
+          window.location.href = baseUrl + savedPath;
+        }
+      };
+    </script>
   </head>
   <body>
     <div id="app"></div>
