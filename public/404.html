@@ -12,7 +12,11 @@
     if (path.startsWith('/vue3-admin/')) {
       // 重定向到index.html，保持原有的路由信息
       const pathWithoutBase = path.replace('/vue3-admin/', '');
-      window.location.href = '/vue3-admin/' + (pathWithoutBase ? '/' + pathWithoutBase : hash);
+      // 移除多余的斜杠，确保路径格式正确
+      const cleanPath = pathWithoutBase.replace(/\/+/g, '/');
+      // 构建最终的URL，如果有路径则添加路径，否则使用hash
+      const finalPath = cleanPath ? '/' + cleanPath : '';
+      window.location.href = '/vue3-admin' + finalPath + (hash || '');
     } else {
       // 开发环境直接重定向到根目录
       window.location.href = '/';
