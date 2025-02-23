@@ -11,28 +11,18 @@
     
     // 如果路径以/vue3-admin/开头，说明是生产环境
     if (path.startsWith('/vue3-admin/')) {
-      // 将路由信息作为路径的一部分传递
       const pathWithoutBase = path.replace('/vue3-admin/', '');
-      const targetPath = '/vue3-admin/index.html';
-      // 如果有hash，优先使用hash部分
-      if (hash) {
-        window.location.replace(`${targetPath}${hash}${search}`);
-      } else {
-        // 否则使用路径部分作为路由
-        const finalUrl = pathWithoutBase ? `${targetPath}#/${pathWithoutBase}${search}` : targetPath;
-        window.location.replace(finalUrl);
-      }
+      // 移除末尾的index.html（如果有）
+      const cleanPath = pathWithoutBase.replace(/index\.html$/, '');
+      // 构建最终URL，不使用hash路由
+      const finalUrl = `/vue3-admin/${cleanPath}${search}`;
+      window.location.replace(finalUrl);
     } else {
-      // 开发环境直接重定向到根目录
-      const targetPath = '/index.html';
-      // 如果有hash，优先使用hash部分
-      if (hash) {
-        window.location.replace(`${targetPath}${hash}${search}`);
-      } else {
-        // 否则使用路径部分作为路由
-        const finalUrl = path === '/' ? targetPath : `${targetPath}#${path}${search}`;
-        window.location.replace(finalUrl);
-      }
+      // 移除末尾的index.html（如果有）
+      const cleanPath = path.replace(/index\.html$/, '');
+      // 构建最终URL，不使用hash路由
+      const finalUrl = cleanPath === '/' ? '/' : `${cleanPath}${search}`;
+      window.location.replace(finalUrl);
     }
   </script>
 </head>
