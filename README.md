@@ -63,11 +63,3 @@ pnpm dev
 # 预览生产构建
 pnpm preview
 ```
-
-## 部署
-
-项目使用 GitHub Actions 进行自动化部署，每次推送到 main 分支时会自动构建并部署到 GitHub Pages。
-
-## 许可证
-
-[MIT](LICENSE)
