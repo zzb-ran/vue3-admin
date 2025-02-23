@@ -27,6 +27,9 @@ export default defineConfig({
     },
     // 确保 public 目录下的文件被正确复制
     copyPublicDir: true
+  },
+  server: {
+    historyApiFallback: true
   }
 })
 
