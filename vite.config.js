@@ -29,7 +29,13 @@ export default defineConfig({
     copyPublicDir: true
   },
   server: {
-    historyApiFallback: true
+    proxy: {
+      '/vue3-admin': {
+        target: 'http://localhost:5173',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/vue3-admin/, '')
+      }
+    }
   }
 })
 
