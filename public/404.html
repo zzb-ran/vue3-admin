@@ -11,10 +11,10 @@
     // 如果路径以/vue3-admin/开头，说明是生产环境
     if (path.startsWith('/vue3-admin/')) {
       // 重定向到index.html，保持原有的路由信息
-      window.location.href = '/vue3-admin/' + hash;
+      window.location.href = path;
     } else {
       // 开发环境直接重定向到根目录
-      window.location.href = '/' + hash;
+      window.location.href = '/';
     }
   </script>
 </head>
