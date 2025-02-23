@@ -11,39 +11,39 @@ const nesEmulator = ref(null)
 const presetGames = [
     {
         name: '超级玛丽',
-        url: '/games/roms/超级玛丽.nes',
+        url: './games/roms/超级玛丽.nes',
         core: 'nes',
-        cover: '/games/covers/超级玛丽.png'
+        cover: './games/covers/超级玛丽.png'
     },
     {
         name: '热血格斗',
-        url: '/games/roms/热血格斗.nes',
+        url: './games/roms/热血格斗.nes',
         core: 'nes',
-        cover: '/games/covers/热血格斗.png'
+        cover: './games/covers/热血格斗.png'
     },
     {
         name: '赤影战士',
-        url: '/games/roms/赤影战士.nes',
+        url: './games/roms/赤影战士.nes',
         core: 'nes',
-        cover: '/games/covers/赤影战士.png'
+        cover: './games/covers/赤影战士.png'
     },
     {
         name: '赤色要塞',
-        url: '/games/roms/赤色要塞.nes',
+        url: './games/roms/赤色要塞.nes',
         core: 'nes',
-        cover: '/games/covers/赤色要塞.png'
+        cover: './games/covers/赤色要塞.png'
     },
     {
         name: '超级大富翁',
-        url: '/games/roms/超级大富翁(百万富翁).nes',
+        url: './games/roms/超级大富翁(百万富翁).nes',
         core: 'nes',
-        cover: '/games/covers/超级大富翁(百万富翁).png'
+        cover: './games/covers/超级大富翁(百万富翁).png'
     },
     {
         name: '雪人兄弟',
-        url: '/games/roms/雪人兄弟.nes',
+        url: './games/roms/雪人兄弟.nes',
         core: 'nes',
-        cover: '/games/covers/雪人兄弟.png'
+        cover: './games/covers/雪人兄弟.png'
     }
 ]
 
