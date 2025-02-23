@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Vue3 Admin</title>
-  <script>
-    // 获取当前URL中的路径部分
-    const path = window.location.pathname;
-    const hash = window.location.hash;
-    
-    // 如果路径以/vue3-admin/开头，说明是生产环境
-    if (path.startsWith('/vue3-admin/')) {
-      // 重定向到index.html，保持原有的路由信息
-      const pathWithoutBase = path.replace('/vue3-admin/', '');
-      // 移除多余的斜杠，确保路径格式正确
-      const cleanPath = pathWithoutBase.replace(/\/+/g, '/');
-      // 构建最终的URL，如果有路径则添加路径，否则使用hash
-      const finalPath = cleanPath ? '/' + cleanPath : '';
-      window.location.href = '/vue3-admin' + finalPath + (hash || '');
-    } else {
-      // 开发环境直接重定向到根目录
-      window.location.href = '/';
-    }
-  </script>
-</head>
-<body>
-  <h1>正在重定向...</h1>
-</body>
+  <head>
+    <script>
+      // 获取当前URL中的路径部分
+      const path = window.location.pathname.replace('/vue3-admin', '');
+      const search = window.location.search;
+      const hash = window.location.hash;
+      
+      // 如果不是根路径，则保存到sessionStorage
+      if (path !== '/' && path !== '/index.html') {
+        const redirectPath = path + search + hash;
+        sessionStorage.setItem('redirect', redirectPath);
+      }
+      
+      // 构建重定向URL
+      const baseUrl = '/vue3-admin';
+      window.location.href = baseUrl + (sessionStorage.getItem('redirect') || '/');
+    </script>
+  </head>
+  <body>
+    <p>If you are not redirected, <a href="/vue3-admin/">click here</a>.</p>
+  </body>
 </html>
