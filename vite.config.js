@@ -35,7 +35,7 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/vue3-admin/, '')
       }
-    }
+    },
   }
 })
 

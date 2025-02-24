@@ -11,37 +11,37 @@ const nesEmulator = ref(null)
 const presetGames = [
     { 
         name: '合金弹头1',
-        url: './games/roms/mslug1.zip',
+        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B41/mslug.zip',
         core: 'arcade',
         cover: './games/covers/mslug1.png'
     },
     { 
         name: '合金弹头X',
-        url: './games/roms/mslug-x.zip',
+        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B4X/mslugx.zip',
         core: 'arcade',
         cover: './games/covers/mslug-x.png'
     },
     { 
         name: '合金弹头2',
-        url: './games/roms/mslug2.zip',
+        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B42/mslug2.zip',
         core: 'arcade',
         cover: './games/covers/mslug2.png'
     },
     { 
         name: '合金弹头3',
-        url: './games/roms/mslug3.zip',
+        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B43/mslug3.zip',
         core: 'arcade',
         cover: './games/covers/mslug3.png'
     },
     { 
         name: '合金弹头4',
-        url: './games/roms/mslug4.zip',
+        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B44/mslug4.zip',
         core: 'arcade',
         cover: './games/covers/mslug4.png'
     },
     { 
         name: '合金弹头5',
-        url: './games/roms/mslug5.zip',
+        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B45/mslug5.zip',
         core: 'arcade',
         cover: './games/covers/mslug5.png'
     },
