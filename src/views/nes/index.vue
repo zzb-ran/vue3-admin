@@ -9,6 +9,42 @@ const nesEmulator = ref(null)
 
 // 预设游戏列表
 const presetGames = [
+    { 
+        name: '合金弹头1',
+        url: './games/roms/mslug1.zip',
+        core: 'arcade',
+        cover: './games/covers/mslug1.png'
+    },
+    { 
+        name: '合金弹头X',
+        url: './games/roms/mslug-x.zip',
+        core: 'arcade',
+        cover: './games/covers/mslug-x.png'
+    },
+    { 
+        name: '合金弹头2',
+        url: './games/roms/mslug2.zip',
+        core: 'arcade',
+        cover: './games/covers/mslug2.png'
+    },
+    { 
+        name: '合金弹头3',
+        url: './games/roms/mslug3.zip',
+        core: 'arcade',
+        cover: './games/covers/mslug3.png'
+    },
+    { 
+        name: '合金弹头4',
+        url: './games/roms/mslug4.zip',
+        core: 'arcade',
+        cover: './games/covers/mslug4.png'
+    },
+    { 
+        name: '合金弹头5',
+        url: './games/roms/mslug5.zip',
+        core: 'arcade',
+        cover: './games/covers/mslug5.png'
+    },
     {
         name: '超级玛丽',
         url: './games/roms/超级玛丽.nes',
@@ -71,6 +107,7 @@ const handleFileUpload = (event) => {
         '.sms', '.gg', '.a26', '.a78', '.lnx', '.vec', '.nds',
         '.vb'
     ]
+    
 
     const fileName = file.name.toLowerCase()
 

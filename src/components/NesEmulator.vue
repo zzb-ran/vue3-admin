@@ -73,18 +73,22 @@ const defaultControls = {
         6: { value: 'a', value2: 'DPAD_LEFT' },    // 左
         7: { value: 'd', value2: 'DPAD_RIGHT' },   // 右
         8: { value: 'k', value2: 'BUTTON_1' },     // A按钮
-        10: { value: 'i', value2: 'LEFT_TOP_SHOULDER' },
-        11: { value: 'o', value2: 'RIGHT_TOP_SHOULDER' }
+        10: { value: 'o', value2: 'LEFT_TOP_SHOULDER' },
+        11: { value: 'i', value2: 'RIGHT_TOP_SHOULDER' },
+        13: { value: 'l', value2: 'RIGHT_BOTTOM_SHOULDER' },     
     },
     1: {
         0: { value: 'numpad 1', value2: 'BUTTON_2' },     // B按钮
+        2: { value: 'numpad 0', value2: 'SELECT' },     // 选择
+        3: { value: 'decimal point', value2: 'START' },    // 开始
         4: { value: 'up arrow', value2: 'DPAD_UP' },      // 上
         5: { value: 'down arrow', value2: 'DPAD_DOWN' },    // 下
         6: { value: 'left arrow', value2: 'DPAD_LEFT' },    // 左
         7: { value: 'right arrow', value2: 'DPAD_RIGHT' },   // 右
         8: { value: 'numpad 2', value2: 'BUTTON_1' },     // A按钮
-        10: { value: 'numpad 5', value2: 'LEFT_TOP_SHOULDER' },
-        11: { value: 'numpad 6', value2: 'RIGHT_TOP_SHOULDER' }
+        10: { value: 'numpad 6', value2: 'LEFT_TOP_SHOULDER' },
+        11: { value: 'numpad 5', value2: 'RIGHT_TOP_SHOULDER' },
+        13: { value: 'numpad 3', value2: 'RIGHT_BOTTOM_SHOULDER' }, 
     },
     2: {},
     3: {}
@@ -135,19 +139,34 @@ const initEmulator = (romFile) => {
         // 根据文件类型选择核心
         const parts = romFile.name.split(".")
         const core = determineCore(parts.pop())
+        // 地区
+        const dipswitch = 'fbneo-dipswitch-' + parts[0] + '-Region_(Fake)';
+        const Territory = 'fbneo-dipswitch-' + parts[0] + '-Territory';
 
         // 设置EmulatorJS的配置
         window.EJS_player = '#game'
         window.EJS_language = 'zh-CN'
-        window.EJS_gameID = '1'
+        window.EJS_gameID = Math.random().toString(36).substr(2, 9)
         window.EJS_gameName = parts[0]
+        
         window.EJS_gameUrl = URL.createObjectURL(romFile)
         window.EJS_core = core
         window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/" // 这里设置CDN地址
         window.EJS_startOnLoaded = true
+        window.EJS_DEBUG_XX = true;
+        window.EJS_disableDatabases = true;
+        window.EJS_threads = false;
+        window.EJS_biosUrl = "./games/roms/arcade.7z";
+        // 菜单配置
+	    // window.EJS_defaultOptions = {
+        //     'shader': 'crt-easymode.glslp',
+        //     'save-state-location': 'browser',
+        //     // [dipswitch]: 'China',
+        //     // [Territory]: 'Hong Kong'
+	    // }
 
         // 使用统一的按键配置
-        window.EJS_Buttons = defaultButtons
+        // window.EJS_Buttons = defaultButtons
         window.EJS_defaultControls = defaultControls
 
         const script = document.createElement('script')
@@ -184,6 +203,7 @@ const determineCore = (ext) => {
     if (["vec"].includes(ext)) return "vectrex"
     if (["nds"].includes(ext)) return "nds"
     if (["vb"].includes(ext)) return "vb"
+    if (["zip"].includes(ext)) return "arcade"
     return ext
 }
 
@@ -205,7 +225,6 @@ defineExpose({
 <style scoped>
 .nes-emulator {
     width: 100%;
-    max-width: 800px;
     margin: 0 auto;
 }
 
@@ -237,7 +256,7 @@ defineExpose({
     align-items: center;
     gap: 20px;
     width: 100%;
-    max-width: 800px;
+    max-width: 960px;
     margin: 0 auto;
     aspect-ratio: 4/3;
     background-color: #000;
