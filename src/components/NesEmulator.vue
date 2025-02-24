@@ -116,7 +116,7 @@ const defaultButtons = {
 }
 
 // 初始化模拟器
-const initEmulator = (romFile) => {
+const initEmulator = (romFile, core) => {
     // 先设置状态，确保game-area元素被渲染
     isPlaying.value = true
 
@@ -137,19 +137,33 @@ const initEmulator = (romFile) => {
         document.querySelector('.game-area').appendChild(gameDiv)
 
         // 根据文件类型选择核心
-        const parts = romFile.name.split(".")
-        const core = determineCore(parts.pop())
-        // 地区
-        const dipswitch = 'fbneo-dipswitch-' + parts[0] + '-Region_(Fake)';
-        const Territory = 'fbneo-dipswitch-' + parts[0] + '-Territory';
+        let core;
+        let gameName;
+        let gameUrl;
+
+        if (typeof romFile === 'string') {
+            // 如果romFile是字符串，说明是直接传入的URL（用于街机游戏）
+            gameUrl = romFile;
+            gameName = gameUrl.split('/').pop().split('.')[0];
+            core = 'arcade';
+        } else {
+            // 如果romFile是File对象，需要处理文件
+            const parts = romFile.name.split(".")
+            gameName = parts[0]
+            core = determineCore(parts.pop())
+            gameUrl = URL.createObjectURL(romFile)
+        }
+
+        // 地区设置（仅用于街机游戏）
+        const dipswitch = 'fbneo-dipswitch-' + gameName + '-Region_(Fake)';
+        const Territory = 'fbneo-dipswitch-' + gameName + '-Territory';
 
         // 设置EmulatorJS的配置
         window.EJS_player = '#game'
         window.EJS_language = 'zh-CN'
         window.EJS_gameID = Math.random().toString(36).substr(2, 9)
-        window.EJS_gameName = parts[0]
-        
-        window.EJS_gameUrl = URL.createObjectURL(romFile)
+        window.EJS_gameName = gameName
+        window.EJS_gameUrl = gameUrl
         window.EJS_core = core
         window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/" // 这里设置CDN地址
         window.EJS_startOnLoaded = true

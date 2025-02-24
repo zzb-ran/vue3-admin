@@ -86,10 +86,16 @@ const presetGames = [
 // 加载预设游戏
 const loadPresetGame = async (game) => {
     try {
-        const response = await fetch(game.url)
-        const blob = await response.blob()
-        const file = new File([blob], `${game.name}.${game.core}`, { type: 'application/octet-stream' })
-        nesEmulator.value.initEmulator(file)
+        if (game.core === 'arcade') {
+            // 街机游戏直接使用URL加载
+            nesEmulator.value.initEmulator(game.url, game.core)
+        } else {
+            // 其他游戏转换为blob加载
+            const response = await fetch(game.url)
+            const blob = await response.blob()
+            const file = new File([blob], `${game.name}.${game.core}`, { type: 'application/octet-stream' })
+            nesEmulator.value.initEmulator(file)
+        }
     } catch (error) {
         ElMessage.error('加载游戏失败：' + error.message)
     }
