@@ -7,41 +7,46 @@ import { Upload, VideoPlay } from '@element-plus/icons-vue'
 const title = ref('NES游戏模拟器')
 const nesEmulator = ref(null)
 
+// 检查是否为移动设备
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
+const baseGameUrl = isMobile ? 'https://120.25.150.89' : 'https://zzzb.space'
+
 // 预设游戏列表
 const presetGames = [
     { 
         name: '合金弹头1',
-        url: 'https://zzzb.space/game/yzdownload/mslug.zip',
+        url: `${baseGameUrl}/game/yzdownload/mslug.zip`,
         core: 'arcade',
         cover: './games/covers/mslug.png'
     },
     { 
         name: '合金弹头X',
-        url:'https://zzzb.space/game/yzdownload/mslugx.zip',
+        url:`${baseGameUrl}/game/yzdownload/mslugx.zip`,
         core: 'arcade',
         cover: './games/covers/mslugx.png'
     },
     { 
         name: '合金弹头2',
-        url: 'https://zzzb.space/game/yzdownload/mslug2.zip',
+        url: `${baseGameUrl}/game/yzdownload/mslug2.zip`,
         core: 'arcade',
         cover: './games/covers/mslug2.png'
     },
     { 
         name: '合金弹头3',
-        url: 'https://zzzb.space/game/yzdownload/mslug3.zip',
+        url: `${baseGameUrl}/game/yzdownload/mslug3.zip`,
         core: 'arcade',
         cover: './games/covers/mslug3.png'
     },
     { 
         name: '合金弹头4',
-        url: 'https://zzzb.space/game/yzdownload/mslug4.zip',
+        url: `${baseGameUrl}/game/yzdownload/mslug4.zip`,
         core: 'arcade',
         cover: './games/covers/mslug4.png'
     },
     { 
         name: '合金弹头5',
-        url: 'https://zzzb.space/game/yzdownload/mslug5.zip',
+        url: `${baseGameUrl}/game/yzdownload/mslug5.zip`,
         core: 'arcade',
         cover: './games/covers/mslug5.png'
     },
@@ -132,7 +137,7 @@ const handleFileUpload = async (event) => {
             const formData = new FormData()
             formData.append('file', file)
             
-            const response = await fetch('https://zzzb.space/game/upload/', {
+            const response = await fetch(`${baseGameUrl}/game/upload/`, {
                 method: 'POST',
                 body: formData
             })
@@ -153,7 +158,7 @@ const handleFileUpload = async (event) => {
             const data = await response.json()
             console.log('服务器响应数据:', data)
             // 将相对路径转换为完整URL
-            const fullUrl = `https://zzzb.space/game/download/${data.filename}`
+            const fullUrl = `${baseGameUrl}/game/download/${data.filename}`
             nesEmulator.value.initEmulator(fullUrl, 'arcade')
         } else {
             // 处理其他平台游戏ROM
