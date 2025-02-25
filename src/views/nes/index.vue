@@ -132,7 +132,7 @@ const handleFileUpload = async (event) => {
             const formData = new FormData()
             formData.append('file', file)
             
-            const response = await fetch('http://127.0.0.1:8000/upload/', {
+            const response = await fetch('https://zzzb.space/game/upload/', {
                 method: 'POST',
                 body: formData
             })
@@ -153,7 +153,7 @@ const handleFileUpload = async (event) => {
             const data = await response.json()
             console.log('服务器响应数据:', data)
             // 将相对路径转换为完整URL
-            const fullUrl = `http://127.0.0.1:8000/download/${data.filename}`
+            const fullUrl = `https://zzzb.space/game/download/${data.filename}`
             nesEmulator.value.initEmulator(fullUrl, 'arcade')
         } else {
             // 处理其他平台游戏ROM
