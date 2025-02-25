@@ -1,8 +1,11 @@
 <script setup>
-import { ref, nextTick } from 'vue'
+import { ref, nextTick, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { ArrowLeft } from '@element-plus/icons-vue'
+
+// 检查是否为移动设备
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 const router = useRouter()
 const isPlaying = ref(false)
@@ -116,9 +119,41 @@ const defaultButtons = {
 }
 
 // 初始化模拟器
-const initEmulator = (romFile, core) => {
+// 处理屏幕方向锁定
+const lockScreenOrientation = async () => {
+    try {
+        if (isMobile && screen.orientation && screen.orientation.lock) {
+            await screen.orientation.lock('landscape')
+        }
+    } catch (error) {
+        console.warn('无法锁定屏幕方向:', error)
+    }
+}
+
+// 处理全屏显示
+const requestFullscreen = async () => {
+    try {
+        if (isMobile) {
+            const gameArea = document.querySelector('.game-area')
+            if (gameArea && gameArea.requestFullscreen) {
+                await gameArea.requestFullscreen()
+            }
+        }
+    } catch (error) {
+        console.warn('无法进入全屏模式:', error)
+    }
+}
+
+// 初始化模拟器
+const initEmulator = async (romFile, core) => {
     // 先设置状态，确保game-area元素被渲染
     isPlaying.value = true
+    
+    // 如果是移动设备，锁定屏幕方向并请求全屏
+    if (isMobile) {
+        await lockScreenOrientation()
+        await requestFullscreen()
+    }
 
     // 等待DOM更新后再初始化模拟器
     nextTick(() => {
@@ -274,6 +309,25 @@ defineExpose({
     margin: 0 auto;
     aspect-ratio: 4/3;
     background-color: #000;
+}
+
+@media (max-width: 768px) {
+    .game-area {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        max-width: none;
+        margin: 0;
+        aspect-ratio: unset;
+    }
+
+    .back-button {
+        position: fixed;
+        top: env(safe-area-inset-top, 10px);
+        left: env(safe-area-inset-left, 10px);
+    }
 }
 
 #game {

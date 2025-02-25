@@ -13,9 +13,12 @@ import {
   Document
 } from '@element-plus/icons-vue'
 
+// 检查是否为移动设备
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
 const router = useRouter()
 const route = useRoute()
-const isCollapse = ref(false)
+const isCollapse = ref(isMobile)
 const dropdownVisible = ref(false)
 const isDark = ref(localStorage.getItem('theme') === 'dark')
 

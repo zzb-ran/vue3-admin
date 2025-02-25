@@ -11,37 +11,37 @@ const nesEmulator = ref(null)
 const presetGames = [
     { 
         name: '合金弹头1',
-        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B41/mslug.zip',
+        url: 'https://zzzb.space/game/yzdownload/mslug.zip',
         core: 'arcade',
-        cover: './games/covers/mslug1.png'
+        cover: './games/covers/mslug.png'
     },
     { 
         name: '合金弹头X',
-        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B4X/mslugx.zip',
+        url:'https://zzzb.space/game/yzdownload/mslugx.zip',
         core: 'arcade',
-        cover: './games/covers/mslug-x.png'
+        cover: './games/covers/mslugx.png'
     },
     { 
         name: '合金弹头2',
-        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B42/mslug2.zip',
+        url: 'https://zzzb.space/game/yzdownload/mslug2.zip',
         core: 'arcade',
         cover: './games/covers/mslug2.png'
     },
     { 
         name: '合金弹头3',
-        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B43/mslug3.zip',
+        url: 'https://zzzb.space/game/yzdownload/mslug3.zip',
         core: 'arcade',
         cover: './games/covers/mslug3.png'
     },
     { 
         name: '合金弹头4',
-        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B44/mslug4.zip',
+        url: 'https://zzzb.space/game/yzdownload/mslug4.zip',
         core: 'arcade',
         cover: './games/covers/mslug4.png'
     },
     { 
         name: '合金弹头5',
-        url: 'https://img.femooc.com/roms/%E8%A1%97%E6%9C%BA/%E5%90%88%E9%87%91%E5%BC%B9%E5%A4%B45/mslug5.zip',
+        url: 'https://zzzb.space/game/yzdownload/mslug5.zip',
         core: 'arcade',
         cover: './games/covers/mslug5.png'
     },
@@ -102,7 +102,7 @@ const loadPresetGame = async (game) => {
 }
 
 // 处理文件上传
-const handleFileUpload = (event) => {
+const handleFileUpload = async (event) => {
     const file = event.raw
     if (!file) return
 
@@ -111,10 +111,9 @@ const handleFileUpload = (event) => {
         '.pce', '.ngp', '.ngc', '.ws', '.wsc', '.col', '.d64',
         '.gb', '.gbc', '.gba', '.smd', '.gen', '.md', '.32x',
         '.sms', '.gg', '.a26', '.a78', '.lnx', '.vec', '.nds',
-        '.vb'
+        '.vb', '.zip'
     ]
     
-
     const fileName = file.name.toLowerCase()
 
     if (!validExtensions.some(ext => fileName.endsWith(ext))) {
@@ -127,7 +126,42 @@ const handleFileUpload = (event) => {
         return
     }
 
-    nesEmulator.value.initEmulator(file)
+    try {
+        if (fileName.endsWith('.zip')) {
+            // 处理街机游戏ROM
+            const formData = new FormData()
+            formData.append('file', file)
+            
+            const response = await fetch('http://127.0.0.1:8000/upload/', {
+                method: 'POST',
+                body: formData
+            })
+            
+            console.log('响应状态:', response.status)
+            console.log('响应头:', Object.fromEntries(response.headers.entries()))
+            
+            if (!response.ok) {
+                const errorText = await response.text()
+                console.error('服务器响应错误:', {
+                    status: response.status,
+                    statusText: response.statusText,
+                    errorText
+                })
+                throw new Error(`上传失败: ${response.status} ${response.statusText}`)
+            }
+            
+            const data = await response.json()
+            console.log('服务器响应数据:', data)
+            // 将相对路径转换为完整URL
+            const fullUrl = `http://127.0.0.1:8000/download/${data.filename}`
+            nesEmulator.value.initEmulator(fullUrl, 'arcade')
+        } else {
+            // 处理其他平台游戏ROM
+            nesEmulator.value.initEmulator(file)
+        }
+    } catch (error) {
+        ElMessage.error('处理ROM文件失败：' + error.message)
+    }
 }
 </script>
 
@@ -163,7 +197,7 @@ const handleFileUpload = (event) => {
         <div class="upload-area">
           <el-upload
             class="upload-container"
-            accept=".nes,.fds,.sfc,.smc,.z64,.n64,.v64,.pce,.ngp,.ngc,.ws,.wsc,.col,.d64,.gb,.gbc,.gba,.smd,.gen,.md,.32x,.sms,.gg,.a26,.a78,.lnx,.vec,.nds,.vb"
+            accept=".nes,.fds,.sfc,.smc,.z64,.n64,.v64,.pce,.ngp,.ngc,.ws,.wsc,.col,.d64,.gb,.gbc,.gba,.smd,.gen,.md,.32x,.sms,.gg,.a26,.a78,.lnx,.vec,.nds,.vb,.zip"
             :auto-upload="false"
             :show-file-list="false"
             @change="handleFileUpload"
