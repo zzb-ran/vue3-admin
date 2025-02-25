@@ -5,6 +5,9 @@ on:
     branches:
       - main  # 根据你的分支名称修改，如果你使用的是 `master` 则改为 `master`
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
