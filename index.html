@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/vue3-admin/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统</title>
+    <script>
+      // 检查是否存在保存的路由信息
+      window.onload = function() {
+        const savedPath = sessionStorage.getItem('redirect');
+        if (savedPath) {
+          // 清除保存的路由信息和重定向标记
+          sessionStorage.removeItem('redirect');
+          sessionStorage.removeItem('redirecting');
+          // 使用保存的路由信息进行重定向
+          const baseUrl = process.env.NODE_ENV === 'production' ? '/vue3-admin' : '';
+          // 保持查询参数和hash
+          window.location.replace(baseUrl + savedPath);
+        }
+      };
+    </script>
+    <script type="module" crossorigin src="/vue3-admin/assets/js/index-DeZBs9YJ.js"></script>
+    <link rel="stylesheet" crossorigin href="/vue3-admin/assets/css/index-BsssAu0r.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      // 获取当前URL中的路径部分
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const hash = window.location.hash;
+      
+      // 构建完整的重定向路径
+      const baseUrl = '/vue3-admin';
+      const currentPath = path.replace(baseUrl, '');
+      
+      // 保存完整的路由信息到sessionStorage
+      if (currentPath !== '/' && currentPath !== '/index.html' && !sessionStorage.getItem('redirecting')) {
+        const redirectPath = currentPath + search + hash;
+        sessionStorage.setItem('redirect', redirectPath);
+        sessionStorage.setItem('redirecting', 'true');
+      }
+      
+      // 重定向到首页
+      window.location.href = baseUrl + '/';
+    </script>
+  </head>
+  <body>
+    <p>正在重定向到首页...</p>
+  </body>
+</html>
