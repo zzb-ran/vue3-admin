@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { ElMessage } from 'element-plus'
 import NesEmulator from '@/components/NesEmulator.vue'
 import { Upload, VideoPlay } from '@element-plus/icons-vue'
@@ -12,8 +12,11 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 
 const baseGameUrl = isMobile ? 'https://120.25.150.89' : 'https://zzzb.space'
 
+// 添加游戏类型选择
+const gameType = ref('arcade') // 默认显示街机游戏
+
 // 预设游戏列表
-const presetGames = [
+const arcadeGames = [
     { 
         name: '合金弹头1',
         url: `${baseGameUrl}/game/yzdownload/mslug.zip`,
@@ -49,7 +52,10 @@ const presetGames = [
         url: `${baseGameUrl}/game/yzdownload/mslug5.zip`,
         core: 'arcade',
         cover: './games/covers/mslug5.png'
-    },
+    }
+]
+
+const nesGames = [
     {
         name: '超级玛丽',
         url: './games/roms/超级玛丽.nes',
@@ -87,6 +93,11 @@ const presetGames = [
         cover: './games/covers/雪人兄弟.png'
     }
 ]
+
+// 计算当前显示的游戏列表
+const currentGames = computed(() => {
+    return gameType.value === 'arcade' ? arcadeGames : nesGames
+})
 
 // 加载预设游戏
 const loadPresetGame = async (game) => {
@@ -178,11 +189,18 @@ const handleFileUpload = async (event) => {
         <template #header>
           <div class="card-header">
             <span class="title"><el-icon><video-play /></el-icon> 预设游戏</span>
+            <el-radio-group v-model="gameType" size="small">
+              <el-radio-button :value="'arcade'">街机游戏</el-radio-button>
+              <el-radio-button :value="'nes'">FC游戏</el-radio-button>
+            </el-radio-group>
           </div>
         </template>
         <div class="preset-games">
           <div class="game-grid">
-            <div v-for="game in presetGames" :key="game.name" class="game-item" @click="loadPresetGame(game)">
+            <div v-for="game in currentGames" 
+                 :key="game.name" 
+                 class="game-item" 
+                 @click="loadPresetGame(game)">
               <div class="game-cover">
                 <img :src="game.cover" :alt="game.name">
               </div>
@@ -228,8 +246,9 @@ const handleFileUpload = async (event) => {
 <style scoped>
 .nes-container {
   padding: 20px;
-  min-height: calc(100vh - 200px);
+  height: calc(100vh - 200px);
   background-color: var(--el-bg-color);
+  overflow: hidden;
 }
 
 .game-selection {
@@ -243,11 +262,13 @@ const handleFileUpload = async (event) => {
 .game-card,
 .upload-card {
   height: 100%;
+  overflow: hidden;
 }
 
 .card-header {
   display: flex;
   align-items: center;
+  justify-content: space-between; /* 修改为两端对齐 */
 }
 
 .card-header .title {
@@ -258,12 +279,16 @@ const handleFileUpload = async (event) => {
   font-weight: 600;
 }
 
+.preset-games {
+  height: calc(100vh - 300px); /* 减去header和padding的高度 */
+}
+
 .game-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
   padding: 10px;
-  max-height: calc(150px * 2 + 20px);
+  max-height: calc(100vh - 300px); /* 使用max-height替代height */
   overflow-y: auto;
 }
 
@@ -289,6 +314,7 @@ const handleFileUpload = async (event) => {
   cursor: pointer;
   transition: transform 0.2s;
   text-align: center;
+  height: fit-content; /* 添加这行 */
 }
 
 .game-item:hover {
@@ -359,6 +385,20 @@ const handleFileUpload = async (event) => {
 @media (max-width: 768px) {
   .game-selection {
     grid-template-columns: 1fr;
+  }
+
+  .preset-games {
+    height: 60vh;
+  }
+
+  .game-grid {
+    max-height: 60vh; /* 与 preset-games 保持一致 */
+  }
+
+  .game-card,
+  .upload-card {
+    max-height: none;
+    overflow: hidden;
   }
 }
 </style>
